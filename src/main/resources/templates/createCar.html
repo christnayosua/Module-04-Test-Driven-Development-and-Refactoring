@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Car</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Create Car</h2>
+
+    <form th:action="@{/car/createCar}" th:object="${car}" method="post">
+        <label>Name</label>
+        <input type="text" th:field="*{carName}" required>
+
+        <label>Color</label>
+        <input type="text" th:field="*{carColor}" required>
+
+        <label>Quantity</label>
+        <input type="number" th:field="*{carQuantity}" required>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>

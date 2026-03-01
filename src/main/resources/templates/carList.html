@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 30px;
+        }
+
+        h2 { text-align: center; }
+
+        .top-btn {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        a.button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        th { background: #f0f0f0; }
+
+        .edit {
+            color: #2196F3;
+            text-decoration: none;
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Car List</h2>
+
+<div class="top-btn">
+    <a class="button" th:href="@{/car/createCar}">+ Add Car</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Quantity</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="car : ${cars}">
+        <td th:text="${car.carName}"></td>
+        <td th:text="${car.carColor}"></td>
+        <td th:text="${car.carQuantity}"></td>
+
+        <td>
+            <a class="edit"
+               th:href="@{/car/editCar/{id}(id=${car.carId})}">
+                Edit
+            </a>
+
+            <form th:action="@{/car/deleteCar}" method="post" style="display:inline;">
+                <input type="hidden" name="carId" th:value="${car.carId}">
+                <button class="delete-btn" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

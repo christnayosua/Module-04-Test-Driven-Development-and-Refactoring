@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Car</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2196F3;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #1976d2; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Car</h2>
+
+    <form th:action="@{/car/editCar}" th:object="${car}" method="post">
+        <input type="hidden" th:field="*{carId}">
+
+        <label>Name</label>
+        <input type="text" th:field="*{carName}" required>
+
+        <label>Color</label>
+        <input type="text" th:field="*{carColor}" required>
+
+        <label>Quantity</label>
+        <input type="number" th:field="*{carQuantity}" required>
+
+        <button type="submit">Update</button>
+    </form>
+</div>
+
+</body>
+</html>
