@@ -11,15 +11,19 @@
   <div class="jumbotron">
     <h1 class="display-4">Welcome to ADV Shop</h1>
 
-    <!-- INI yang dibaca oleh Selenium test -->
+    <!-- Dibaca oleh Selenium test -->
     <h3 class="mb-4">Welcome</h3>
 
     <p class="lead">
-      Manage your products efficiently with our advanced shop management system
+      Manage your products and cars efficiently with our advanced shop management system
     </p>
+
     <hr class="my-4">
 
+    <!-- GRID CARD -->
     <div class="row mt-5">
+
+      <!-- View Product -->
       <div class="col-md-6 mb-4">
         <div class="card h-100">
           <div class="card-body">
@@ -33,6 +37,7 @@
         </div>
       </div>
 
+      <!-- Add Product -->
       <div class="col-md-6 mb-4">
         <div class="card h-100">
           <div class="card-body">
@@ -45,14 +50,50 @@
           </div>
         </div>
       </div>
+
+      <!-- View Car -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="fas fa-car fa-3x text-info mb-3"></i>
+            <h5 class="card-title">View Cars</h5>
+            <p class="card-text">Browse and manage all cars in your inventory</p>
+            <a th:href="@{/car/listCar}" class="btn btn-outline-info">
+              Go to Cars
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Car -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <i class="fas fa-car-side fa-3x text-warning mb-3"></i>
+            <h5 class="card-title">Add Car</h5>
+            <p class="card-text">Create new cars for your inventory</p>
+            <a th:href="@{/car/createCar}" class="btn btn-outline-warning">
+              Create Car
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="mt-5">
-      <a th:href="@{/product/list}" class="btn btn-primary btn-lg mr-3">
+    <!-- BUTTON BESAR -->
+    <div class="mt-4">
+      <a th:href="@{/product/list}" class="btn btn-primary btn-lg mr-2">
         <i class="fas fa-shopping-cart"></i>
-        Start Managing Products
+        Manage Products
+      </a>
+
+      <a th:href="@{/car/listCar}" class="btn btn-info btn-lg">
+        <i class="fas fa-car"></i>
+        Manage Cars
       </a>
     </div>
+
   </div>
 </div>
 
