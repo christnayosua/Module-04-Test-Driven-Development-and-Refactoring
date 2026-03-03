@@ -5,7 +5,6 @@ import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.CarService;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,32 +15,42 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductService service;
+    private final ProductService service;
+
+    // Constructor Injection 
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
     public String createProductPost(@ModelAttribute Product product, Model model) {
         service.create(product);
-        return "redirect:list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
-        return "productList";
+        return "ProductList";
     }
 
-    @GetMapping("/edit/{productId}")
-    public String editProductPage(@PathVariable String productId, Model model) {
-        Product product = service.findById(productId);
+    @GetMapping("/edit/{id}")
+    public String editProductPage(@PathVariable("id") String id, Model model) {
+
+        Product product = service.findById(id);
+
+        if (product == null) {
+            return "redirect:/product/list";
+        }
+
         model.addAttribute("product", product);
         return "editProduct";
     }
@@ -49,13 +58,21 @@ public class ProductController {
     @PostMapping("/edit")
     public String editProductPost(@ModelAttribute Product product, Model model) {
         service.update(product);
-        return "redirect:list";
+        return "redirect:/product/list";
     }
 
     @PostMapping("/delete")
-    public String deleteProduct(@RequestParam("productId") String productId) {
-        service.delete(productId);
-        return "redirect:list";
+    public String deleteProduct(
+            @RequestParam("productId") String productId,
+            Model model) {
+
+        boolean deleted = service.delete(productId);
+
+        if (!deleted) {
+            model.addAttribute("errorMessage", "Product not found!");
+        }
+
+        return "redirect:/product/list";
     }
 }
 
@@ -63,8 +80,13 @@ public class ProductController {
 @RequestMapping("/car")
 class CarController extends ProductController {
 
-    @Autowired
-    private CarService carService; // ✔ gunakan interface (SOLID)
+    private final CarService carService;
+
+    // Constructor injection
+    public CarController(ProductService service, CarService carService) {
+        super(service);
+        this.carService = carService;
+    }
 
     @GetMapping("/createCar")
     public String createCarPage(Model model) {

@@ -41,7 +41,8 @@ class ProductControllerTest {
     void testCreateProductPost() {
         Product product = new Product();
 
-        String viewName = productController.createProductPost(product);
+        String viewName =
+                productController.createProductPost(product, model);
 
         verify(productService).create(product);
         assertEquals("redirect:/product/list", viewName);
@@ -62,7 +63,8 @@ class ProductControllerTest {
         Product product = new Product();
         when(productService.findById("1")).thenReturn(product);
 
-        String viewName = productController.editProductPage("1", model);
+        String viewName =
+                productController.editProductPage("1", model);
 
         verify(model).addAttribute("product", product);
         assertEquals("editProduct", viewName);
@@ -72,7 +74,8 @@ class ProductControllerTest {
     void testEditProductPageNotFound() {
         when(productService.findById("1")).thenReturn(null);
 
-        String viewName = productController.editProductPage("1", model);
+        String viewName =
+                productController.editProductPage("1", model);
 
         assertEquals("redirect:/product/list", viewName);
     }
@@ -81,7 +84,8 @@ class ProductControllerTest {
     void testEditProductPost() {
         Product product = new Product();
 
-        String viewName = productController.editProductPost(product);
+        String viewName =
+                productController.editProductPost(product, model);
 
         verify(productService).update(product);
         assertEquals("redirect:/product/list", viewName);
@@ -91,7 +95,8 @@ class ProductControllerTest {
     void testDeleteProductSuccess() {
         when(productService.delete("1")).thenReturn(true);
 
-        String viewName = productController.deleteProduct("1", model);
+        String viewName =
+                productController.deleteProduct("1", model);
 
         verify(model, never()).addAttribute(anyString(), any());
         assertEquals("redirect:/product/list", viewName);
@@ -101,7 +106,8 @@ class ProductControllerTest {
     void testDeleteProductFail() {
         when(productService.delete("1")).thenReturn(false);
 
-        String viewName = productController.deleteProduct("1", model);
+        String viewName =
+                productController.deleteProduct("1", model);
 
         verify(model).addAttribute("errorMessage", "Product not found!");
         assertEquals("redirect:/product/list", viewName);
