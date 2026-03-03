@@ -246,3 +246,52 @@ Perbaikan yang akan saya lakukan ke depannya agar aplikasi dapat berjalan dengan
 7. PMD
 8. Docker
 9. Render
+
+<h2 style="color:#05fa42">Module 3 : Maintainability OO Principles</h2>
+<b style='color:#fa9d75;font-style:italic'>by Christna Yosua Rotinsulu</b>
+
+<h3 style='color:#89f70a'>Prinsip-Prinsip S.O.L.I.D yang Diterapkan dalam Proyek</h3>
+<hr>
+
+1. <b style='color:#0eed85'>Single Responsibility (SRP)</b> - Setelah saya melakukan <i style='color:#75afff'>refactoring code</i>, kini setiap kelas hanya berfokus kepada satu tugas: 
+    - Kelas `car` dan `product` berperan sebagai model data (getter/setter)
+    - `CarRepositoryImpl` dan `ProductRepositoryImpl` bertanggung jawab untuk menyimpan dan mengambil data dari memori (persistence)
+    - `CarServiceImpl` dan `ProductServiceImpl` berperan sebagai logika bisnis (misalnya melakukan validasi atau transformasi data)
+    - `CarController` dan `ProductController` berperan menangani <i>HTTP request</i> dan mengembalikan view
+
+    Melalui pemisahan ini, perubahan pada satu aspek (misalnya cara penyimpanan) tidak akan mempengaruhi aspek lainnya (misalnya tampilan). Sebagai contoh, pada langkah `before-solid`, `ProductController` dan `CarController` berada pada satu berkas yang sama. Hal ini melanggar prinsip <b style='color:#75afff'>SRP</b> di mana file tersebut sekarang <b style='color:#75afff'>memiliki lebih dari satu tanggung jawab dengan menangani domain Product dan Car secara bersamaan</b>. Implikasinya nanti terjadi ketika terdapat perubahan di bagian `Car` akan 'menyentuh' file Product sehingga meningkatkan <i style='color:#75afff'>coupling</i> secara tidak langsung. Selain itu, hal ini tentu akan mengurangi <b style='color:#75afff'>keterbacaan dan modularitas</b> sebab file menjadi lebih panjang dan sulit untuk dinavigasi. 
+
+2. <b style='color:#0eed85'>Open Closed Principle (OCP)</b> 
+Setelah membuat antarmuka `CarRepository` dan `ProductRepository`. Hal ini akan memudahkan ketika ingin data ke <i style='color:#75afff'>database</i> dengan cukup membuat implementasi baru seperti `CarDatabaseRepository` tanpa <i>refactoring code</i> yang sudah ada (<i style='color:#75afff'>service dan controller tetap menggunakan antarmuka yang sama</i>). 
+
+3. <b style='color:#0eed85'>Liskov Substitution Principle (LSP)</b>
+<i style='color:#75afff'>Subtype harus dapat menggantikan tipe induknya tanpa mengubah perilaku program</i>. Sebelumnya, `CarController` mewarisi `ProductController`. yang sebenarnya implementasinya tidak tepat sebab keduanya memiliki tanggung jawab yang berbeda. Pewarisan yang dilakukan tentu akan menimbulkan perilaku yang tidak sesuai. Dalam mengatasi hal ini, saya melakukan <i style='color:#75afff'>refactoring kode</i> dengan memisahkan controller agar dapat berdiri sendiri. Jika suatu saat terdapat subclass seperti `AdminCarController`, subclass tersebut harus tetap mempertahankan kontrak dan perilaku dasar dari `CarController` agar tidak melanggar prinsip substitusi. 
+
+4. <b style='color:#0eed85'>Interface Segregation Principle (ISP)</b> - <i style='color:#75afff'>Antarmuka harus spesifik dan tidak memaksa klien bergantung kepada metode yang tidak dibutuhkan</i>. Antarmuka yang saya perbaiki, seperti `CarService` dan `CarRepository`, kini hanya berisi metode yang relevan untuk entitas Car (`create`, `findAll`, `findById`, `update`, dan `delete`). Tidak ada metode tambahan yang tidak dibutuhkan. <i style='color:#75afff'>Refactoring</i> tersebut mencegah "fat interface" yang dapat meningkatkan kompleksitas implementasi. 
+
+5. <b style='color:#0eed85'>Dependency Inversion Principle (DIP)</b> - <i style='color:#75afff'>Modul tingkat tinggi tidak boleh bergantung pada modul tingkat rendah; keduanya harus bergantung pada suatu abstraksi</i>. Kini, `CarServiceImpl` bergantung pada antarmuka `CarRepository`, bukan pada implementasi konkret, seperti `CarRepositoryImpl`. Dependency tersebut "disuntikkan" melalui <i style='color:#75afff'>constructor injection</i> sehingga depedensi menjadi eksplisit dan mudah dimodifikasi. Pendekatan yang saya lakukan ini memungkinkan penggantian implementasi (misalnya dengan mock saat melakukan <i style='color:#75afff'>testing</i>) tanpa harus mengubah kode service.
+
+<h3 style='color:#89f70a'>Keuntungan Menerapkan S.O.L.I.D dalam Proyek</h3>
+<hr>
+
+1. <b style='color:#0eed85'>Maintainability</b> - <i style='color:#75afff'>Perubahan dapat dilakukan secara terisolasi</i>. Misalnya, ketika saya ingin menambahkan validasi bahwa nama mobil tidak boleh kosong, hal yang perlu saya lakukan adalah mengimplementasikannya di bagian `service` tanpa perlu mengubah `repository` dan `controller`.
+2. <b style='color:#0eed85'>Flexibility</b> - <i style='color:#75afff'>Sistem mudah dikembangkan tanpa perubahan dasar</i>. Misalnya, untuk berpindah dari penyimpanan in-memory database, saya cukup menambahkan implementasi repository baru tanpa mengubah `service` dan `controller`. 
+3. <b style='color:#0eed85'>Testability</b> - <i style='color:#75afff'>Depedensi dapat diganti dengan mock</i>. Misalnya, ketika saya ingin menguji `CarServiceImpl`, saya dapat menggunakan mock `CarRepository` dengan Mockito tanpa perlu menggunakan implementasi nyata. Hal ini tentu akan membantu saya dalam melakukan <i>testing</i> yang cepat dan terisolasi. 
+4. <b style='color:#0eed85'>Reusability</b> - <i style='color:#75afff'>Komponen yang terpisah dapat digunakan kembali</i>. Misalnya, saya dapat menggunakan kembali `CarService` melalui REST controller ketika aplikasi saya dikembangkan menjadi API berbasis JSON tanpa perlu diubah logika bisnisnya. 
+5. <b style='color:#0eed85'>Clarity dan Struktur Jelas</b> - <i style='color:#75afff'>Setiap kelas memiliki peran yang jelas, sehingga developer baru dapat memahami alur aplikasi dengan lebih mudah</i>. Berdasarkan implementasi dan pengalaman yang selama mengerjakan modul ini, penerapan S.O.L.I.D meningkatkan <span style='color:#75afff'>skalabilitas, modularitas, dan robustness sistem</span>
+
+<h3>Referensi:</h3><br>
+tech.finlup.id. (2024, 12 December). <i>Memahami SOLID Architecture dalam Pengembangan Perangkat Lunak</i>. Retrieved from https://tech.finlup.id/memahami-solid-architecture-dalam-pengembangan-perangkat-lunak
+
+<h3 style='color:#89f70a'>Kerugian Jika Tidak Menerapkan S.O.L.I.D</h3>
+<hr>
+
+1. <b style='color:#0eed85'>Rigidity</b> - Tanpa OCP, penambahan fitur baru berpotensi memaksa modifikasi kode yang sudah stabil. Misalnya, saya ingin menambahkan repository berbasis cache tanpa sebuah abstraksi, selain melakukan modifikasi pada repository, saya mungkin perlu menambahkan kondisi `if-`else`statement untuk menangani fitur baru tersebut sehingga semakin kompleks.
+2. <b style='color:#0eed85'>Fragility</b> - <i style='color:#75afff'>Perubahan di satu tempat dapat merusak bagian yang terkait lainnya.</i> Misalnya, ketika `CarController` mewarisi `ProductController`, lalu saya mencoba mengubah `ProductController` yang akan berpotensi mempengaruhi `CarController`, meskipun keduanya tidak memiliki hubungan domain yang kuat. 
+3. <b style='color:#0eed85'>Low Testability</b> - Tanpa DIP, depedensi tidak dapat diganti dengan mock, sehingga pengujian harus menggunakan implementasi nyata yang mungkin bergantung pada state internal dan sulit dikontrol. 
+4. <b style='color:#0eed85'>Poor Maintainability</b> - Hal ini akan sangat berpotensi jika controller menangani logika bisnis dan akses data sekaligus, setiap perubahan aturan bisnis akan berisiko merusak endpoint HTTP. Kode juga akan menjadi sulit dipahami dan diperbaiki
+5. <b style='color:#0eed85'>Tight Coupling</b> - Service terikat pada implementasi konkret sehingga sulit untuk mengganti storage
+
+<h3 style='color:#89f70a'>Kesimpulan</h3>
+<hr>
+Dengan menggunakan prinsip S.O.L.I.D, proyek Eshop saya menjadi lebih modular, fleksibel, mudah diuji, dan mudah dikembangkan. Struktur yang menjadi lebih jelas memungkinkan sistem berkembang dari aplikasi sederhana berbasis in-memory menjadi aplikasi berbasi database dan API tanpa perlu melakukan perubahan besar pada arsitektur/kode utama yang sudah saya buat.
