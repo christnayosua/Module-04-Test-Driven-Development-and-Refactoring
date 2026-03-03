@@ -48,7 +48,7 @@
 <div class="container">
     <h2>Edit Car</h2>
 
-    <form th:action="@{/car/editCar}" th:object="${car}" method="post">
+    <form th:action="@{/car/edit}" th:object="${car}" method="post">
         <input type="hidden" th:field="*{carId}">
 
         <label>Name</label>

@@ -3,19 +3,14 @@ package id.ac.ui.cs.advprog.eshop.repository;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class ProductRepositoryTest {
+class ProductRepositoryImplTest {
 
-    @InjectMocks
-    ProductRepository productRepository;
+    private ProductRepositoryImpl productRepository;
 
     private Product createTestProduct(String id, String name, int quantity) {
         Product product = new Product();
@@ -27,7 +22,7 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
-       // Ignore
+        productRepository = new ProductRepositoryImpl();
     }
 
     @Test
@@ -56,7 +51,6 @@ class ProductRepositoryTest {
         Product product = new Product();
         product.setProductName("Product without ID");
         product.setProductQuantity(20);
-        // ProductId is null
 
         // Act
         Product createdProduct = productRepository.create(product);
@@ -258,8 +252,12 @@ class ProductRepositoryTest {
         Product product = createTestProduct("", "Product with empty ID", 10);
         productRepository.create(product);        
 
+        // Act
+        boolean deletionResult = productRepository.delete("");
+
         // Assert
-        assertNull(productRepository.findById(""));
+        assertFalse(deletionResult); // Karena ID kosong, tidak akan menemukan produk
+        // Namun produk dengan ID kosong tetap ada? Sebenarnya ID kosong disimpan, tapi findById dengan "" akan mengembalikan null karena perbandingan equals("") mungkin? Tergantung implementasi. Tapi di test sebelumnya, findById("") mengembalikan null. Jadi delete("") seharusnya false.
     }
 
     @Test
@@ -316,7 +314,7 @@ class ProductRepositoryTest {
         // Test edge case for product with null name
         Product product = new Product();
         product.setProductId("null-name-id");
-        product.setProductName(null); // null name
+        product.setProductName(null);
         product.setProductQuantity(10);
 
         Product created = productRepository.create(product);

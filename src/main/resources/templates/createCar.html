@@ -47,8 +47,7 @@
 
 <div class="container">
     <h2>Create Car</h2>
-
-    <form th:action="@{/car/createCar}" th:object="${car}" method="post">
+    <form th:action="@{/car/create}" th:object="${car}" method="post">
         <label>Name</label>
         <input type="text" th:field="*{carName}" required>
 

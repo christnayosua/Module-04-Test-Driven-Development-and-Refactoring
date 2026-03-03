@@ -59,7 +59,7 @@
 <h2>Car List</h2>
 
 <div class="top-btn">
-    <a class="button" th:href="@{/car/createCar}">+ Add Car</a>
+    <a class="button" th:href="@{/car/create}">+ Add Car</a>
 </div>
 
 <table>
@@ -73,23 +73,23 @@
     </thead>
 
     <tbody>
-    <tr th:each="car : ${cars}">
-        <td th:text="${car.carName}"></td>
-        <td th:text="${car.carColor}"></td>
-        <td th:text="${car.carQuantity}"></td>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.carName}"></td>
+            <td th:text="${car.carColor}"></td>
+            <td th:text="${car.carQuantity}"></td>
 
-        <td>
-            <a class="edit"
-               th:href="@{/car/editCar/{id}(id=${car.carId})}">
-                Edit
-            </a>
+            <td>
+                <a class="edit"
+                th:href="@{/car/edit/{id}(id=${car.carId})}">
+                    Edit
+                </a>
 
-            <form th:action="@{/car/deleteCar}" method="post" style="display:inline;">
-                <input type="hidden" name="carId" th:value="${car.carId}">
-                <button class="delete-btn" type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
+                <form th:action="@{/car/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="carId" th:value="${car.carId}">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
     </tbody>
 </table>
 
