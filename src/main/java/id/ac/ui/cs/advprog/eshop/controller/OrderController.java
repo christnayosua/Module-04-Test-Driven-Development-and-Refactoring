@@ -90,15 +90,24 @@ public class OrderController {
     @PostMapping("/pay/{orderId}")
     public String payOrder(
             @PathVariable String orderId,
-            @RequestParam String method
+            @RequestParam String method,
+            @RequestParam(required = false) String voucherCode,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String deliveryFee
     ) {
 
         Order order = orderService.findById(orderId);
 
         Map<String, String> paymentData = new HashMap<>();
 
-        paymentData.put("address", "Sample Address");
-        paymentData.put("deliveryFee", "10000");
+        if ("Voucher".equals(method)) {
+            paymentData.put("voucherCode", voucherCode);
+        }
+
+        if ("Cash on Delivery".equals(method)) {
+            paymentData.put("address", address);
+            paymentData.put("deliveryFee", deliveryFee);
+        }
 
         Payment payment = paymentService.addPayment(
                 order,

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,14 @@ public class PaymentServiceImpl implements PaymentService {
     private static final String STATUS_REJECTED = "REJECTED";
 
     private static final String METHOD_COD = "Cash on Delivery";
+    private static final String METHOD_VOUCHER = "Voucher";
+
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_DELIVERY_FEE = "deliveryFee";
+    private static final String KEY_VOUCHER_CODE = "voucherCode";
+
+    private static final int VOUCHER_LENGTH = 16;
+    private static final int REQUIRED_DIGITS = 8;
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
@@ -38,6 +47,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         if (METHOD_COD.equals(method)) {
             validateCashOnDelivery(payment, paymentData);
+        }
+
+        if (METHOD_VOUCHER.equals(method)) {
+            validateVoucher(payment, paymentData);
         }
 
         paymentRepository.save(payment);
@@ -83,10 +96,36 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void validateCashOnDelivery(Payment payment, Map<String, String> paymentData) {
 
-        String address = paymentData.get("address");
-        String deliveryFee = paymentData.get("deliveryFee");
+        String address = paymentData.get(KEY_ADDRESS);
+        String deliveryFee = paymentData.get(KEY_DELIVERY_FEE);
 
         if (isEmpty(address) || isEmpty(deliveryFee)) {
+            payment.setStatus(STATUS_REJECTED);
+        } else {
+            payment.setStatus(STATUS_SUCCESS);
+        }
+    }
+
+    private void validateVoucher(Payment payment, Map<String, String> paymentData) {
+
+        String code = paymentData.get(KEY_VOUCHER_CODE);
+
+        if (code == null || code.length() != VOUCHER_LENGTH || !code.startsWith("ESHOP")) {
+            payment.setStatus(STATUS_REJECTED);
+            return;
+        }
+
+        int digitCount = 0;
+
+        for (char c : code.toCharArray()) {
+            if (Character.isDigit(c)) {
+                digitCount++;
+            }
+        }
+
+        if (digitCount == REQUIRED_DIGITS) {
+            payment.setStatus(STATUS_SUCCESS);
+        } else {
             payment.setStatus(STATUS_REJECTED);
         }
     }
