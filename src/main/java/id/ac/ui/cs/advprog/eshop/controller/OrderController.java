@@ -1,8 +1,10 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
+import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.OrderService;
+import id.ac.ui.cs.advprog.eshop.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -19,6 +23,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @GetMapping("/create")
     public String createOrderPage() {
@@ -80,4 +87,25 @@ public class OrderController {
         return "order/pay";
     }
 
+    @PostMapping("/pay/{orderId}")
+    public String payOrder(
+            @PathVariable String orderId,
+            @RequestParam String method
+    ) {
+
+        Order order = orderService.findById(orderId);
+
+        Map<String, String> paymentData = new HashMap<>();
+
+        paymentData.put("address", "Sample Address");
+        paymentData.put("deliveryFee", "10000");
+
+        Payment payment = paymentService.addPayment(
+                order,
+                method,
+                paymentData
+        );
+
+        return "redirect:/payment/detail/" + payment.getId();
+    }
 }
