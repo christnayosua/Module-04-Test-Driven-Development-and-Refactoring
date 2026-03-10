@@ -59,7 +59,6 @@ class PaymentServiceTest {
     void testAddPaymentCashOnDeliveryMissingFee() {
         Map<String, String> missingFee = new HashMap<>();
         missingFee.put("address", "Jl. A");
-        // no deliveryFee
         Payment result = paymentService.addPayment(order, "Cash on Delivery", missingFee);
         assertEquals("REJECTED", result.getStatus());
     }
@@ -68,7 +67,7 @@ class PaymentServiceTest {
     void testSetStatusSuccess() {
         Payment payment = new Payment("p1", order.getId(), "Cash on Delivery", "PENDING", validCodData);
         when(paymentRepository.findById("p1")).thenReturn(Optional.of(payment));
-        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+        when(orderRepository.findById(order.getId())).thenReturn(order);
 
         Payment updated = paymentService.setStatus(payment, "SUCCESS");
         assertEquals("SUCCESS", updated.getStatus());
@@ -80,7 +79,7 @@ class PaymentServiceTest {
     void testSetStatusRejected() {
         Payment payment = new Payment("p1", order.getId(), "Cash on Delivery", "PENDING", validCodData);
         when(paymentRepository.findById("p1")).thenReturn(Optional.of(payment));
-        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+        when(orderRepository.findById(order.getId())).thenReturn(order);
 
         Payment updated = paymentService.setStatus(payment, "REJECTED");
         assertEquals("REJECTED", updated.getStatus());
@@ -94,6 +93,8 @@ class PaymentServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             paymentService.setStatus(payment, "INVALID");
         });
+        verify(paymentRepository, never()).save(any());
+        verify(orderRepository, never()).findById(any());
     }
 
     @Test
