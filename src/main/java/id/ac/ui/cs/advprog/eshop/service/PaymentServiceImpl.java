@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentServiceImpl implements PaymentService {
 
     private static final String STATUS_PENDING = "PENDING";

@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +23,32 @@ public class OrderController {
     @GetMapping("/create")
     public String createOrderPage() {
         return "order/create";
+    }
+
+    @PostMapping("/create")
+    public String createOrder(
+            @RequestParam String author
+    ) {
+
+        List<Product> products = new ArrayList<>();
+
+        Product dummyProduct = new Product();
+        dummyProduct.setProductId(UUID.randomUUID().toString());
+        dummyProduct.setProductName("Sample Product");
+        dummyProduct.setProductQuantity(1);
+
+        products.add(dummyProduct);
+
+        Order order = new Order(
+                UUID.randomUUID().toString(),
+                products,
+                System.currentTimeMillis(),
+                author
+        );
+
+        orderService.createOrder(order);
+
+        return "redirect:/order/history";
     }
 
     @GetMapping("/history")
@@ -50,19 +78,6 @@ public class OrderController {
         model.addAttribute("orderId", orderId);
 
         return "order/pay";
-    }
-
-    @PostMapping("/pay/{orderId}")
-    public String payOrder(
-            @PathVariable String orderId,
-            Model model
-    ) {
-
-        String paymentId = UUID.randomUUID().toString();
-
-        model.addAttribute("paymentId", paymentId);
-
-        return "payment/detail";
     }
 
 }
