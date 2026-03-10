@@ -35,8 +35,8 @@ repositories {
 
 sonar {
     properties {
-        property("sonar.projectKey", "A-Christna-Yosua-Rotinsulu-2406495691_Module-01---Coding-Standards")
-        property("sonar.organization", "module2cicd")
+        property("sonar.projectKey", "christnayosua_Module-04-Test-Driven-Development-and-Refactoring")
+        property("sonar.organization", "christnayosua")
         property("sonar.host.url", "https://sonarcloud.io")
         property(
             "sonar.coverage.jacoco.xmlReportPaths",

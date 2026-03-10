@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Order History</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <h2>Search Order History</h2>
+
+    <form method="post" th:action="@{/order/history}">
+
+        <div class="form-group">
+            <label>Customer Name</label>
+            <input class="form-control" name="author">
+        </div>
+
+        <button class="btn btn-secondary">
+            Search
+        </button>
+
+    </form>
+
+    <hr>
+
+    <table class="table" th:if="${orders != null}">
+
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="order : ${orders}">
+
+            <td th:text="${order.id}"></td>
+
+            <td th:text="${order.status}"></td>
+
+            <td>
+
+                <a th:href="@{/order/pay/{id}(id=${order.id})}"
+                class="btn btn-warning btn-sm">
+                    Pay
+                </a>
+
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>
