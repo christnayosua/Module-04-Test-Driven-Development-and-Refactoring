@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Pay Order</title>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>Pay Order</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
 
 <div class="container mt-5">
 
-<h2>Pay Order</h2>
+    <h2>Pay Order</h2>
 
-<form th:action="@{/order/pay/{id}(id=${orderId})}" method="post">
+    <form th:action="@{/order/pay/{id}(id=${orderId})}" method="post">
 
-<div class="form-group">
-<label>Payment Method</label>
+        <div class="form-group">
 
-<select name="method" class="form-control">
+            <label>Payment Method</label>
 
-<option>Cash on Delivery</option>
+            <select class="form-control" name="method">
+                <option>Cash on Delivery</option>
+            </select>
 
-</select>
+        </div>
 
-</div>
+        <button class="btn btn-success">
+            Pay
+        </button>
 
-<button class="btn btn-success">Pay</button>
-
-</form>
+    </form>
 
 </div>
 
