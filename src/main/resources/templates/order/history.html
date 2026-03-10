@@ -41,8 +41,20 @@
 
         <tbody>
         <tr th:each="order : ${orders}">
+
             <td th:text="${order.id}"></td>
-            <td th:text="${order.author}"></td>
+
+            <td th:text="${order.status}"></td>
+
+            <td>
+
+                <a th:href="@{/order/pay/{id}(id=${order.id})}"
+                class="btn btn-warning btn-sm">
+                    Pay
+                </a>
+
+            </td>
+
         </tr>
         </tbody>
 

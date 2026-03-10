@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <meta charset="UTF-8">
@@ -7,31 +8,68 @@
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+
+        body {
+            background: #f4f6f9;
+        }
+
+        .payment-card {
+            max-width: 500px;
+            margin: auto;
+            border-radius: 12px;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+    </style>
+
 </head>
 
 <body>
 
 <div class="container mt-5">
 
-    <h2>Pay Order</h2>
+    <div class="payment-card">
 
-    <form th:action="@{/order/pay/{id}(id=${orderId})}" method="post">
+        <h3 class="text-center mb-4">Pay Order</h3>
 
-        <div class="form-group">
+        <div th:if="${orderId != null}" class="alert alert-info text-center">
+            Order ID: <strong th:text="${orderId}"></strong>
+        </div>
 
-            <label>Payment Method</label>
+        <form th:action="@{/order/pay/{id}(id=${orderId})}" method="post">
 
-            <select class="form-control" name="method">
-                <option>Cash on Delivery</option>
-            </select>
+            <div class="form-group">
+
+                <label>Payment Method</label>
+
+                <select class="form-control" name="method">
+
+                    <option value="Cash on Delivery">
+                        Cash on Delivery
+                    </option>
+
+                </select>
+
+            </div>
+
+            <button class="btn btn-success">
+                Pay Order
+            </button>
+
+        </form>
+
+        <div class="text-center mt-3">
+
+            <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">
+                Back to Home
+            </a>
 
         </div>
 
-        <button class="btn btn-success">
-            Pay
-        </button>
-
-    </form>
+    </div>
 
 </div>
 
