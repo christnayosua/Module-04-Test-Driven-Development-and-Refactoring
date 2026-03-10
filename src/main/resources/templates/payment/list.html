@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Payments</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+<h2>Payments</h2>
+
+<table class="table">
+
+<tr>
+<th>ID</th>
+<th>Status</th>
+<th>Detail</th>
+</tr>
+
+<tr th:each="payment : ${payments}">
+
+<td th:text="${payment.id}"></td>
+<td th:text="${payment.status}"></td>
+
+<td>
+<a th:href="@{/payment/admin/detail/{id}(id=${payment.id})}" class="btn btn-sm btn-info">
+View
+</a>
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</body>
+</html>
