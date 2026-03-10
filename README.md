@@ -295,3 +295,5 @@ tech.finlup.id. (2024, 12 December). <i>Memahami SOLID Architecture dalam Pengem
 <h3 style='color:#89f70a'>Kesimpulan</h3>
 <hr>
 Dengan menggunakan prinsip S.O.L.I.D, proyek Eshop saya menjadi lebih modular, fleksibel, mudah diuji, dan mudah dikembangkan. Struktur yang menjadi lebih jelas memungkinkan sistem berkembang dari aplikasi sederhana berbasis in-memory menjadi aplikasi berbasi database dan API tanpa perlu melakukan perubahan besar pada arsitektur/kode utama yang sudah saya buat.
+
+## Modul 4
