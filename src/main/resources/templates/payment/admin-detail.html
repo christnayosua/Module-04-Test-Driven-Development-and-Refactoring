@@ -1,17 +1,15 @@
 <div class="container mt-5">
 
-<h2>Payment Admin Detail</h2>
+    <h2>Payment Admin Detail</h2>
 
-<p>ID: <span th:text="${payment.id}"></span></p>
-<p>Status: <span th:text="${payment.status}"></span></p>
+    <p>
+        <strong>ID:</strong>
+        <span th:text="${payment?.id}"></span>
+    </p>
 
-<form method="post"
-th:action="@{/payment/admin/set-status/{id}(id=${payment.id})}">
-
-<button name="status" value="SUCCESS" class="btn btn-success">Accept</button>
-
-<button name="status" value="REJECTED" class="btn btn-danger">Reject</button>
-
-</form>
+    <p>
+        <strong>Status:</strong>
+        <span th:text="${payment?.status}"></span>
+    </p>
 
 </div>

@@ -1,8 +1,15 @@
 <div class="container mt-5">
 
-<h2>Payment Detail</h2>
+    <h2>Payment Detail</h2>
 
-<p>ID: <span th:text="${payment.id}"></span></p>
-<p>Status: <span th:text="${payment.status}"></span></p>
+    <p>
+        <strong>ID:</strong>
+        <span th:text="${payment?.id}"></span>
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        <span th:text="${payment?.status}"></span>
+    </p>
 
 </div>
