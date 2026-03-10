@@ -55,6 +55,9 @@ class PaymentServiceTest {
         invalidCodData = new HashMap<>();
         invalidCodData.put("address","");
         invalidCodData.put("deliveryFee","15000");
+
+        lenient().when(paymentRepository.save(any(Payment.class)))
+                .thenAnswer(i -> i.getArgument(0));
     }
 
     @Test
@@ -62,10 +65,10 @@ class PaymentServiceTest {
 
         Payment result = paymentService.addPayment(order,"Cash on Delivery",validCodData);
 
-        assertEquals("PENDING",result.getStatus());
+        assertEquals("SUCCESS",result.getStatus());
         assertEquals(order.getId(),result.getOrderId());
 
-        verify(paymentRepository).save(any(Payment.class));
+        verify(paymentRepository,times(1)).save(any(Payment.class));
     }
 
     @Test
@@ -75,7 +78,7 @@ class PaymentServiceTest {
 
         assertEquals("REJECTED",result.getStatus());
 
-        verify(paymentRepository).save(any(Payment.class));
+        verify(paymentRepository,times(1)).save(any(Payment.class));
     }
 
     @Test
@@ -88,6 +91,58 @@ class PaymentServiceTest {
 
         assertEquals("REJECTED",result.getStatus());
 
+        verify(paymentRepository,times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentVoucherValid(){
+
+        Map<String,String> voucherData = new HashMap<>();
+        voucherData.put("voucherCode","ESHOP12345678ABC");
+
+        Payment result = paymentService.addPayment(order,"Voucher",voucherData);
+
+        assertEquals("SUCCESS",result.getStatus());
+
+        verify(paymentRepository).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentVoucherInvalidPrefix(){
+
+        Map<String,String> voucherData = new HashMap<>();
+        voucherData.put("voucherCode","INVALID12345678AB");
+
+        Payment result = paymentService.addPayment(order,"Voucher",voucherData);
+
+        assertEquals("REJECTED",result.getStatus());
+
+        verify(paymentRepository).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentVoucherInvalidLength(){
+
+        Map<String,String> voucherData = new HashMap<>();
+        voucherData.put("voucherCode","ESHOP123");
+
+        Payment result = paymentService.addPayment(order,"Voucher",voucherData);
+
+        assertEquals("REJECTED",result.getStatus());
+
+        verify(paymentRepository).save(any(Payment.class));
+    }
+
+    @Test
+    void testAddPaymentVoucherInvalidDigitCount(){
+
+        Map<String,String> voucherData = new HashMap<>();
+        voucherData.put("voucherCode","ESHOPABCDEFGH123");
+
+        Payment result = paymentService.addPayment(order,"Voucher",voucherData);
+
+        assertEquals("REJECTED",result.getStatus());
+
         verify(paymentRepository).save(any(Payment.class));
     }
 
@@ -97,6 +152,7 @@ class PaymentServiceTest {
         Payment payment = new Payment("p1",order.getId(),"Cash on Delivery","PENDING",validCodData);
 
         when(orderRepository.findById(order.getId())).thenReturn(order);
+        when(orderRepository.save(order)).thenReturn(order);
 
         Payment result = paymentService.setStatus(payment,"SUCCESS");
 
@@ -113,6 +169,7 @@ class PaymentServiceTest {
         Payment payment = new Payment("p1",order.getId(),"Cash on Delivery","PENDING",validCodData);
 
         when(orderRepository.findById(order.getId())).thenReturn(order);
+        when(orderRepository.save(order)).thenReturn(order);
 
         Payment result = paymentService.setStatus(payment,"REJECTED");
 
