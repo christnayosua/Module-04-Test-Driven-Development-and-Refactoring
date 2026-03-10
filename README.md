@@ -296,4 +296,30 @@ tech.finlup.id. (2024, 12 December). <i>Memahami SOLID Architecture dalam Pengem
 <hr>
 Dengan menggunakan prinsip S.O.L.I.D, proyek Eshop saya menjadi lebih modular, fleksibel, mudah diuji, dan mudah dikembangkan. Struktur yang menjadi lebih jelas memungkinkan sistem berkembang dari aplikasi sederhana berbasis in-memory menjadi aplikasi berbasi database dan API tanpa perlu melakukan perubahan besar pada arsitektur/kode utama yang sudah saya buat.
 
-## Modul 4
+<h2 style='color:#fc6d62'>Module 4: Test-Driven
+Development & Refactoring</h2>
+<b>By Christna Yosua Rotinsulu - 2406495691</b>
+
+<h3>Reflection</h3>
+<hr>
+<h4>1. Refleksi terhadap Workflow Test-Driven Development</h4><hr>
+Setelah mengikuti tutorial sampai mengerjakan exercise, terlebih ditambah pemicu pertanyaan reflektif dari Percival (2017) pada submodul <b>Evaluating Your Testing Objectives</b>, saya merasa bahwa TDD cukup membantu saya dalam proses pengembangan perangkat lunak. Dengan mengikuti siklusnya, yaitu <b>RED - GREEN - REFACTOR - [CHORE]</b>, saya mendapatkan pembelajaran baru untuk lebih terarah dalam menuliskan suatu kode. Proses ini dimulai dengan menuliskan unit test terlebih dahulu untuk menentukan perilaku yang diharapkan <i>developer</i>. Kemudian dari hal tersebut, kode mulai dituliskan agar memenuhi testing yang sudah dibuat dapat berjalan dengan benar. Selama ini saya berpikir bahwa alur yang benar adalah membuat sebuah program dan ketika selesai saya melakukan unit testing. Terlebih ketika sudah mendekati <i>deadline</i>, saya terkadang tidak membuat unit testing yang padahal menjadi aspek yang penting dalam sebuah aplikasi. 
+
+Melalui <b>Test-Driven Development (TDD)</b>, saya mulai lebih memahami tujuan dari fitur yang ingin dibuat sebelum langsung menulis implementasinya. Menulis test terlebih dahulu membuat saya harus memikirkan bagaimana sebuah fungsi seharusnya bekerja dan apa saja kondisi yang perlu saya uji, misalnya <i>happy</i> dan <i>unhappy</i>. Hal tersebut justru membantu saya untuk memahami kebutuhan sistem dengan lebih jelas dibandingkan jika saya memulai dari membuat kode terlebih dahulu. 
+
+Walaupun demikian, dalam praktiknya saya juga mengalami beberapa kesulitan, terlebih dari kebiasaan saya untuk menuliskan kode lebih awal. Misalnya, ketika menentukan struktur test yang tepat atau ketika harus menyesuaikan kode yang sudah ada agar sesuai dengan test yang dibuat. Selain itu, pada awalnya menulis test terlebih dahulu terasa lebih lama dibandingkan menulis kode implementasi nyatanya. Namun setelah dipahami lebih mendalam, pendekatan ini sebenarnya sangat membantu menghasilkan kode yang lebih terstruktur dan mengurangi kemungkinan munculnya bug. Oleh karena itu, saya merasa perlu untuk terus berlatih agar semakin terbiasa menggunakan pendekatan <b>TDD</b> dalam mengembangkan suatu aplikasi atau sistem layanan.
+
+<h4>2. Refleksi terhadap Prinsip F.I.R.S.T dalam unit test</h4><hr>
+Dalam pembuatan unit test pada tutorial ini, saya mencoba menerapkan prinsip F.I.R.S.T, yaitu <b>Fast, Independent, Repeatable, Self-validating, dan Timely.</b> Prinsip-prinsip ini membantu saya untuk memahami bagaimana membuat unit test yang baik dan efektif.
+
+Dari sisi <b>Fast</b>, unit test yang dibuat dapat dijalankan dengan cepat karena hanya menguji bagian kecil dari sistem dan tidak bergantung pada komponen lain seperti database atau jaringan. Hal ini membuat proses testing menjadi lebih efisen tentunya.
+
+Dari sisi <b>Independent</b>, setiap test yang saya buat dirancang agar tidak bergantung pada test lainnya. Pendekatan ini akan membantu saya menghindari <b>Cascading Failures</b>, yaitu ketika satu test gagal dapat mempengaruhi test yang lain. Hal ini tentu memudahkan saya untuk mengetahui bagian mana yang bermasalah. 
+
+Untuk prinsip <b>Repeatable</b>, test harus dapat dijalankan berulang kali dengan hasil yang konsisten selama tidak ada perubahan kode atau <i>logic business</i>. Hal ini penting untuk memastikan bahwa sistem atau aplikasi berjalan dengan baik bahkan setelah dilakukan perubahan.
+
+Selanjutnya, pada prinsip <b>Self-validating</b>, unit test menggunakan assertion untuk memeriksa apakah hasil yang saya peroleh sudah sesuai dengan yang diharapkan. Dengan pendekatan ini, hasil pengujian dapat diketahui secara otomatis tanpa perlu pengecekan manual. 
+
+Terakhir, pada prinsip <b>Timely</b>, test dibuat sebelum atau bersamaan dengan implementasi kode, sesuai dengan pendekatan TDD yang saya gunakan selama tutorial ini. 
+
+Meskipun demikian, saya menyadari bahwa masih ada beberap hal yang bisa untuk diperbaiki. Misalnya dengan membuat test yang lebih sederhana, meningkatkan cakupan pengujian <b>(test coverage)</b>, serta memastikan setiap test hanya terfokus pada satu perilaku tertentu. Dengan banyaknya latihan dan pengalaman, saya berharap dapat menerapkan prinsip-prinsip ini dengan lebih baik dalam pengembangan perangkat lunak atau aplikasi untuk ke depannya.
