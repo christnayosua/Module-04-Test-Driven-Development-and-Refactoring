@@ -5,10 +5,9 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 public class Payment {
-
     private String id;
     private String orderId;
     private String method;
@@ -21,5 +20,13 @@ public class Payment {
         this.method = method;
         this.paymentData = paymentData;
         this.status = "PENDING";
+    }
+
+    public Payment(String id, String orderId, String method, String status, Map<String, String> paymentData) {
+        this.id = id;
+        this.orderId = orderId;
+        this.method = method;
+        this.status = status;
+        this.paymentData = paymentData;
     }
 }
