@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,15 @@ class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
-        order = new Order("order1", new ArrayList<>(), 123L, "author");
+        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-660e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(2);
+        products.add(product);
+        
+        order = new Order("order1", products, 1708560000L, "Safira Sudrajat");
+        
         validCodData = new HashMap<>();
         validCodData.put("address", "Jl. Merdeka No. 1");
         validCodData.put("deliveryFee", "15000");
@@ -66,25 +75,25 @@ class PaymentServiceTest {
     @Test
     void testSetStatusSuccess() {
         Payment payment = new Payment("p1", order.getId(), "Cash on Delivery", "PENDING", validCodData);
-        when(paymentRepository.findById("p1")).thenReturn(Optional.of(payment));
         when(orderRepository.findById(order.getId())).thenReturn(order);
 
         Payment updated = paymentService.setStatus(payment, "SUCCESS");
         assertEquals("SUCCESS", updated.getStatus());
         assertEquals("SUCCESS", order.getStatus());
         verify(orderRepository).save(order);
+        verify(paymentRepository).save(payment);
     }
 
     @Test
     void testSetStatusRejected() {
         Payment payment = new Payment("p1", order.getId(), "Cash on Delivery", "PENDING", validCodData);
-        when(paymentRepository.findById("p1")).thenReturn(Optional.of(payment));
         when(orderRepository.findById(order.getId())).thenReturn(order);
 
         Payment updated = paymentService.setStatus(payment, "REJECTED");
         assertEquals("REJECTED", updated.getStatus());
         assertEquals("FAILED", order.getStatus());
         verify(orderRepository).save(order);
+        verify(paymentRepository).save(payment);
     }
 
     @Test
