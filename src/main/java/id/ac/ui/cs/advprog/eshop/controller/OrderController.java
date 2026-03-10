@@ -6,26 +6,28 @@ import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.OrderService;
 import id.ac.ui.cs.advprog.eshop.service.PaymentService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private static final String ADDRESS_KEY = "address";
+    private static final String DELIVERY_FEE_KEY = "deliveryFee";
+    private static final String SAMPLE_ADDRESS = "Sample Address";
+    private static final String SAMPLE_DELIVERY_FEE = "10000";
 
-    @Autowired
-    private PaymentService paymentService;
+    private final OrderService orderService;
+    private final PaymentService paymentService;
+
+    public OrderController(OrderService orderService, PaymentService paymentService) {
+        this.orderService = orderService;
+        this.paymentService = paymentService;
+    }
 
     @GetMapping("/create")
     public String createOrderPage() {
@@ -33,18 +35,14 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public String createOrder(
-            @RequestParam String author
-    ) {
+    public String createOrder(@RequestParam String author) {
 
-        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId(UUID.randomUUID().toString());
+        product.setProductName("Sample Product");
+        product.setProductQuantity(1);
 
-        Product dummyProduct = new Product();
-        dummyProduct.setProductId(UUID.randomUUID().toString());
-        dummyProduct.setProductName("Sample Product");
-        dummyProduct.setProductQuantity(1);
-
-        products.add(dummyProduct);
+        List<Product> products = Collections.singletonList(product);
 
         Order order = new Order(
                 UUID.randomUUID().toString(),
@@ -70,7 +68,6 @@ public class OrderController {
     ) {
 
         List<Order> orders = orderService.findAllByAuthor(author);
-
         model.addAttribute("orders", orders);
 
         return "order/history";
@@ -83,7 +80,6 @@ public class OrderController {
     ) {
 
         model.addAttribute("orderId", orderId);
-
         return "order/pay";
     }
 
@@ -96,9 +92,8 @@ public class OrderController {
         Order order = orderService.findById(orderId);
 
         Map<String, String> paymentData = new HashMap<>();
-
-        paymentData.put("address", "Sample Address");
-        paymentData.put("deliveryFee", "10000");
+        paymentData.put(ADDRESS_KEY, SAMPLE_ADDRESS);
+        paymentData.put(DELIVERY_FEE_KEY, SAMPLE_DELIVERY_FEE);
 
         Payment payment = paymentService.addPayment(
                 order,
