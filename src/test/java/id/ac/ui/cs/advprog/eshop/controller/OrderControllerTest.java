@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.service.OrderService;
+import id.ac.ui.cs.advprog.eshop.service.PaymentService;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,28 +24,25 @@ class OrderControllerTest {
     @MockBean
     private OrderService orderService;
 
+    @MockBean
+    private PaymentService paymentService;
+
     @Test
     void testCreateOrderPage() throws Exception {
-
         mockMvc.perform(get("/order/create"))
                .andExpect(status().isOk());
-
     }
 
     @Test
     void testOrderHistoryPage() throws Exception {
-
         mockMvc.perform(get("/order/history"))
                .andExpect(status().isOk());
-
     }
 
     @Test
     void testOrderPayPage() throws Exception {
-
         mockMvc.perform(get("/order/pay/123"))
                .andExpect(status().isOk());
-
     }
 
 }
