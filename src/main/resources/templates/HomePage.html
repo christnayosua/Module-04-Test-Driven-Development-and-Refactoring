@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>ADV Shop</title>
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>ADV Shop</title>
 
-<style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 
-body{
-  background:#f5f6fa;
-}
+    <style>
+        body {
+            background: #f5f6fa;
+        }
 
-.card{
-  border-radius:12px;
-  transition:all .25s ease;
-}
+        .card {
+            border-radius: 12px;
+            transition: all .25s ease;
+        }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-}
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
 
-.section-title{
-  font-weight:600;
-  margin-top:30px;
-  margin-bottom:20px;
-}
-
-</style>
+        .section-title {
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
 
 </head>
 
@@ -36,60 +35,73 @@ body{
 
 <div class="container mt-5 text-center">
 
-<h1>ADV Shop</h1>
-<h3>Welcome</h3>
-<hr>
-<h4 class="section-title">Inventory</h4>
-<div class="row">
+    <h1>ADV Shop</h1>
+    <h3>Welcome</h3>
 
-<div class="col-md-6 mb-4">
-<div class="card p-4">
-<h5>Products</h5>
-<a th:href="@{/product/list}" class="btn btn-outline-primary">View Products</a>
-</div>
-</div>
+    <hr>
 
-<div class="col-md-6 mb-4">
-<div class="card p-4">
-<h5>Create Product</h5>
-<a th:href="@{/product/create}" class="btn btn-outline-success">Add Product</a>
-</div>
-</div>
+    <h4 class="section-title">Inventory</h4>
 
-</div>
+    <div class="row">
 
-<h4 class="section-title">Orders</h4>
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5>Products</h5>
+                <a th:href="@{/product/list}" class="btn btn-outline-primary">
+                    View Products
+                </a>
+            </div>
+        </div>
 
-<div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5>Create Product</h5>
+                <a th:href="@{/product/create}" class="btn btn-outline-success">
+                    Add Product
+                </a>
+            </div>
+        </div>
 
-<div class="col-md-6 mb-4">
-<div class="card p-4">
-<h5>Create Order</h5>
-<a th:href="@{/order/create}" class="btn btn-outline-success">Create</a>
-</div>
-</div>
+    </div>
 
-<div class="col-md-6 mb-4">
-<div class="card p-4">
-<h5>Order History</h5>
-<a th:href="@{/order/history}" class="btn btn-outline-secondary">View</a>
-</div>
-</div>
+    <h4 class="section-title">Orders</h4>
 
-</div>
+    <div class="row">
 
-<h4 class="section-title">Payments</h4>
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5>Create Order</h5>
+                <a th:href="@{/order/create}" class="btn btn-outline-success">
+                    Create
+                </a>
+            </div>
+        </div>
 
-<div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5>Order History</h5>
+                <a th:href="@{/order/history}" class="btn btn-outline-secondary">
+                    View
+                </a>
+            </div>
+        </div>
 
-<div class="col-md-6 mb-4">
-<div class="card p-4">
-<h5>Payment Admin</h5>
-<a th:href="@{/payment/admin/list}" class="btn btn-outline-dark">Manage</a>
-</div>
-</div>
+    </div>
 
-</div>
+    <h4 class="section-title">Payments</h4>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5>Payment Admin</h5>
+                <a th:href="@{/payment/admin/list}" class="btn btn-outline-dark">
+                    Manage
+                </a>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 
