@@ -116,4 +116,21 @@ class OrderTest {
 
         assertThrows(IllegalArgumentException.class, () -> order.setStatus("MEOW"));
     }
+
+    @Test
+    void testBuilderCreateOrder() {
+        Order order = Order.builder()
+                .id("order-builder")
+                .products(this.products)
+                .orderTime(1708560000L)
+                .author("Safira Sudrajat")
+                .status(OrderStatus.WAITING_PAYMENT.getValue())
+                .build();
+
+        assertEquals("order-builder", order.getId());
+        assertEquals(this.products, order.getProducts());
+        assertEquals(1708560000L, order.getOrderTime());
+        assertEquals("Safira Sudrajat", order.getAuthor());
+        assertEquals(OrderStatus.WAITING_PAYMENT.getValue(), order.getStatus());
+    }
 }

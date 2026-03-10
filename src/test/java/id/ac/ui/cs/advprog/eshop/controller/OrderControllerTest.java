@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.OrderService;
 import id.ac.ui.cs.advprog.eshop.service.PaymentService;
 
@@ -15,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,20 +82,33 @@ class OrderControllerTest {
                 .andExpect(model().attributeExists("orderId"))
                 .andExpect(view().name("order/pay"));
     }
-
+    
     @Test
     void testPayOrder() throws Exception {
 
-        Order order = new Order(null, null, null, null);
-        Payment payment = new Payment(null, null, null, null);
+        String orderId = "order123";
+        String paymentId = "payment123";
 
-        String orderId = UUID.randomUUID().toString();
-        String paymentId = UUID.randomUUID().toString();
+        Product product = new Product();
+        product.setProductId("p1");
+        product.setProductName("Sample Product");
+        product.setProductQuantity(1);
 
-        payment.setId(paymentId);
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+
+        Order order = new Order(orderId, products, 200L, "Irene");
+
+        Payment payment = new Payment(
+                paymentId,
+                orderId,
+                "Bank Transfer",
+                new HashMap<>()
+        );
 
         when(orderService.findById(orderId)).thenReturn(order);
-        when(paymentService.addPayment(any(), anyString(), anyMap())).thenReturn(payment);
+        when(paymentService.addPayment(any(Order.class), anyString(), any()))
+                .thenReturn(payment);
 
         mockMvc.perform(post("/order/pay/{orderId}", orderId)
                 .param("method", "Bank Transfer"))
