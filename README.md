@@ -323,3 +323,33 @@ Selanjutnya, pada prinsip <b>Self-validating</b>, unit test menggunakan assertio
 Terakhir, pada prinsip <b>Timely</b>, test dibuat sebelum atau bersamaan dengan implementasi kode, sesuai dengan pendekatan TDD yang saya gunakan selama tutorial ini. 
 
 Meskipun demikian, saya menyadari bahwa masih ada beberap hal yang bisa untuk diperbaiki. Misalnya dengan membuat test yang lebih sederhana, meningkatkan cakupan pengujian <b>(test coverage)</b>, serta memastikan setiap test hanya terfokus pada satu perilaku tertentu. Dengan banyaknya latihan dan pengalaman, saya berharap dapat menerapkan prinsip-prinsip ini dengan lebih baik dalam pengembangan perangkat lunak atau aplikasi untuk ke depannya.
+
+<h2>Bonus: Refactor Other’s Code</h2>
+<hr>
+<b>URL: </b><a href="https://github.com/A-Tirta-Rendy-Siahaan-2406355621/Modul-1-Coding-Standards-end/pull/18">https://github.com/A-Tirta-Rendy-Siahaan-2406355621/Modul-1-Coding-Standards-end/pull/18</a>
+
+<h3>1. What do you think about your partner’s code?</h3><hr>
+
+Secara keseluruhan, kode yang dibuatkan teman saya sudah dapat berjalan dengan baik dan memenuhi fungsi utama dari sistem Payment. Struktur kode yang ditulis sangat tersusun rapi dan mudah untuk saya baca dan pahami. Namun, saya menemukan beberapa bagian yang masih dapat diperbaiki untuk meningkatkan kualitas kode, terutama dari sisi maintainability dan readability. Beberapa hal yang saya temukan, seperti <i>magic string</i> pada `ProductRepository.java` yang berpotensi memicu kesalahan jika terjadi typo atau perubahan nilai di refactoring ke depannya. Selain itu, ada beberapa metode dan class yang mempunyai tanggung jawab terlalu banyak sehingga membuat kode kurang modular serta ketergantungan terhadap `concrete class`.
+
+<h3>2. What did you do to contribute?</h3><hr>
+
+Beberapa perbaikan yang saya lakukan meliputi membuat modul `enums` yang menangani `PaymentMethod` dan `PaymentStatus` sehingga `ProductRepository.java` tidak menggunakan magic string kembali. Selain itu, saya mengimplementasikan S.O.L.I.D pada `ProductRepository.java` agar controller dan service tidak bergantung pada `concrete class` dengan cara membuat interface sehingga memudahkan penambahan atau modifikasi behavior tertentu. Terakhir, saya melakukan refactoring pada bagian validasi pembayaran dan voucher dengan memisahkan hal tersebut ke dalam metode-metode yang lebih kecil sehingga mempermudah mantainability dan unit testing.
+
+<h3>2. What did you do to contribute?</h3><hr>
+
+1. <b>Magic string</b> di mana ada beberapa nilai penting, yaitu `PaymentStatus` dan `PaymentMethod` yang menggunakan hal tersebut sehingga kode cukup rentan dan sulit untuk dipelihara.
+2. <b>Long method</b> di mana beberapa metode mempunyai tanggung jawab yang cukup banyak, seperti validasi pembayaran dan kode, sehingga membuat logika di dalamnya sulit dipahami, block kode menjadi panjang, dan rentan untuk menghadapi error runtime.
+3. <b>Tight Coupling</b> di mana `ProductRepository.java` membuat controller dan service bergantung pada `concrete class` sehingga melanggar prinsip `DIP`.
+4. <b>Potential Null Handling Issues</b> di mana beberapa metode di `ProductRepository.java` mengembalikan `NULL` yang sangat rentan menyebabkan `NPE`.
+
+<b>4. What refactoring steps did you suggest and execute?</b><hr>
+
+Untuk mengatasi permasalahan tersebut, saya melakukan beberapa langkah refactoring sebagai berikut:
+- Mengganti penggunaan magic string dengan enum (PaymentMethod dan PaymentStatus) untuk meningkatkan konsistensi dan keamanan tipe data.
+- Memperkenalkan repository interface agar service bergantung pada abstraction daripada implementasi langsung
+- Memisahkan logika validasi pembayaran ke dalam metode-metode yang lebih kecil agar kode lebih modular dan mudah dibaca.
+- Menggunakan struktur data yang lebih sesuai dan meningkatkan cara penanganan data agar lebih aman dari kesalahan seperti NullPointerException.
+- Memperbarui dan menyesuaikan unit test agar tetap sesuai dengan perubahan desain yang dilakukan.
+
+Melalui pendekatan ini, kode teman saya menjadi lebih terstruktur, lebih mudah dipelihara, serta lebih sesuai dengan prinsip SOLID dalam pengembangan perangkat lunak
